@@ -1,0 +1,201 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Space+Grotesk:wght@300..700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+  --color-void: #05070d;
+  --color-surface: #0a0e17;
+  --color-surface-2: #0f1420;
+  --color-border: #1c2436;
+
+  --color-neon-cyan: #4dfaff;
+  --color-neon-violet: #a06bff;
+  --color-neon-green: #3dffb0;
+  --color-neon-amber: #ffb84d;
+  --color-neon-pink: #ff5ec4;
+
+  --color-ink: #e7ecf7;
+  --color-muted: #7c8aa5;
+
+  --animate-pulse-slow: pulse-slow 4s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-scan: scan 2.4s linear infinite;
+  --animate-marching: marching 6s linear infinite;
+
+  @keyframes pulse-slow {
+    0%,
+    100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  @keyframes scan {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(100%);
+    }
+  }
+  @keyframes marching {
+    to {
+      background-position: 100% 0;
+    }
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-void);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--color-neon-cyan);
+    color: var(--color-void);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-void);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-neon-cyan);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@property --chip-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@layer utilities {
+  .mini-contract {
+    position: relative;
+    isolation: isolate;
+  }
+  .mini-contract::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from var(--chip-angle, 0deg),
+      transparent 0%,
+      var(--chip-glow, #4dfaff) 12%,
+      transparent 30%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: chip-spin 3.2s linear infinite;
+    opacity: 0.55;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+  .mini-contract:hover::before {
+    opacity: 1;
+  }
+  @keyframes chip-spin {
+    to {
+      --chip-angle: 360deg;
+    }
+  }
+
+  .card-border-trace {
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .card-border-trace::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: conic-gradient(
+      from var(--chip-angle, 0deg),
+      transparent 0%,
+      #4dfaff 8%,
+      #a06bff 16%,
+      transparent 30%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: chip-spin 2.6s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .card-border-trace:hover::after {
+    opacity: 1;
+  }
+  .card-border-trace:hover {
+    border-color: transparent;
+    box-shadow: 0 12px 40px -12px rgba(77, 250, 255, 0.25);
+  }
+
+  .text-glow-cyan {
+    text-shadow: 0 0 12px rgba(77, 250, 255, 0.55);
+  }
+  .text-glow-violet {
+    text-shadow: 0 0 12px rgba(160, 107, 255, 0.55);
+  }
+  .border-glow-cyan {
+    box-shadow: 0 0 18px rgba(77, 250, 255, 0.18);
+  }
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(124, 138, 165, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(124, 138, 165, 0.06) 1px, transparent 1px);
+    background-size: 42px 42px;
+  }
+}
