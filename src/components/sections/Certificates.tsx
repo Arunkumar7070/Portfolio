@@ -20,20 +20,24 @@ export function Certificates() {
             </RevealItem>
           ) : (
             <div className="mt-10 grid gap-6 sm:grid-cols-2">
-              {certificates.map((cert) => (
-                <RevealItem key={cert.id}>
-                  <a
-                    href={cert.image}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group card-border-trace relative block overflow-hidden rounded-xl border border-border bg-surface/70"
-                  >
-                    <img
-                      src={cert.image}
-                      alt={cert.label}
-                      loading="lazy"
-                      className="aspect-[4/3] w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
-                    />
+              {certificates.map((cert) => {
+                const imagePath = cert.image.startsWith('http')
+                  ? cert.image
+                  : `${import.meta.env.BASE_URL}${cert.image.replace(/^\//, '')}`
+                return (
+                  <RevealItem key={cert.id}>
+                    <a
+                      href={imagePath}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="group card-border-trace relative block overflow-hidden rounded-xl border border-border bg-surface/70"
+                    >
+                      <img
+                        src={imagePath}
+                        alt={cert.label}
+                        loading="lazy"
+                        className="aspect-[4/3] w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
+                      />
                     <div className="flex items-center justify-between border-t border-border bg-surface/90 px-4 py-3">
                       <span className="font-mono text-sm text-ink">{cert.label}</span>
                       <span className="flex items-center gap-1.5 font-mono text-xs text-neon-cyan">
@@ -42,7 +46,7 @@ export function Certificates() {
                     </div>
                   </a>
                 </RevealItem>
-              ))}
+              )})}
             </div>
           )}
         </SectionReveal>

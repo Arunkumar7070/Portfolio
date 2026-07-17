@@ -3,7 +3,7 @@ import { SectionReveal, RevealItem } from '@/components/ui/SectionReveal'
 import { TxButton } from '@/components/ui/TxButton'
 
 function viewResume() {
-  window.open('/resume.png', '_blank', 'noopener,noreferrer')
+  window.open(`${import.meta.env.BASE_URL}resume.png`, '_blank', 'noopener,noreferrer')
 }
 
 export function Resume() {
